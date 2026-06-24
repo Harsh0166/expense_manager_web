@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Manager Pro</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <i class="fa-solid fa-wallet"></i>
+            <h2>ExpensePro</h2>
+        </div>
+
+        <ul class="menu">
+
+            <li id="dashboard-tab" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </li>
+
+            <li id="transactions-tab">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                Transactions
+            </li>
+
+            <li id="reports-tab">
+                <i class="fa-solid fa-chart-pie"></i>
+                Reports
+            </li>
+
+            <li id="settings-tab">
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard-section">
+
+            <div class="header">
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Expense overview</p>
+                </div>
+            </div>
+
+            <div class="cards">
+
+                <div class="card balance-card">
+                    <h4>Total Balance</h4>
+                    <h2 id="balanceAmount">₹0</h2>
+                </div>
+
+                <div class="card income-card">
+                    <h4>Total Income</h4>
+                    <h2 id="incomeAmount">₹0</h2>
+                </div>
+
+                <div class="card expense-card">
+                    <h4>Total Expense</h4>
+                    <h2 id="expenseAmount">₹0</h2>
+                </div>
+
+                <div class="card">
+                    <h4>Total Transactions</h4>
+                    <h2 id="transactionCount">0</h2>
+                </div>
+
+            </div>
+
+            <div class="dashboard-grid">
+
+                <div class="dashboard-box">
+                    <h3>Monthly Overview</h3>
+
+                    <p>
+                        Income, expenses and balance summary will appear here.
+                    </p>
+                </div>
+
+                <div class="dashboard-box">
+                    <h3>Recent Activity</h3>
+
+                    <div id="recentActivity">
+                        No recent activity
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= TRANSACTIONS ================= -->
+
+        <section id="transactions-section" style="display:none;">
+
+            <div class="header">
+                <div>
+                    <h1>Transactions</h1>
+                    <p>Manage all transactions</p>
+                </div>
+            </div>
+
+            <div class="toolbar">
+
+                <div class="search-box">
+
+                    <i class="fa-solid fa-search"></i>
+
+                    <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search transaction..."
+                    >
+
+                </div>
+
+                <button id="addBtn" class="add-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Transaction
+                </button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Date & Time</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="transactionTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <div id="transactionCards" class="transaction-cards">
+
+            </div>
+
+        </section>
+
+        <!-- ================= REPORTS ================= -->
+
+        <section id="reports-section" style="display:none;">
+
+            <div class="header">
+                <div>
+                    <h1>Reports</h1>
+                    <p>Expense insights</p>
+                </div>
+            </div>
+
+            <div class="report-grid">
+
+                <div class="report-card">
+
+                    <h3>Category Summary</h3>
+
+                    <ul class="report-list">
+
+                        <li>Food : ₹5000</li>
+                        <li>Travel : ₹2500</li>
+                        <li>Shopping : ₹4200</li>
+                        <li>Bills : ₹3100</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="report-card">
+
+                    <h3>Monthly Report</h3>
+
+                    <ul class="report-list">
+
+                        <li>January : ₹12000</li>
+                        <li>February : ₹9000</li>
+                        <li>March : ₹15000</li>
+                        <li>April : ₹11000</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= SETTINGS ================= -->
+
+        <section id="settings-section" style="display:none;">
+
+            <div class="header">
+                <div>
+                    <h1>Settings</h1>
+                    <p>Application preferences</p>
+                </div>
+            </div>
+
+            <div class="settings-container">
+
+                <div class="setting-card">
+
+                    <h3>Profile</h3>
+
+                    <input
+                            type="text"
+                            placeholder="Your Name"
+                    >
+
+                </div>
+
+                <div class="setting-card">
+
+                    <h3>Currency</h3>
+
+                    <select>
+
+                        <option>INR ₹</option>
+                        <option>USD $</option>
+                        <option>EUR €</option>
+
+                    </select>
+
+                </div>
+
+                <div class="setting-card">
+
+                    <h3>Theme</h3>
+
+                    <button class="theme-btn">
+                        Dark Mode
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- ADD / UPDATE MODAL -->
+
+<div class="modal" id="transactionModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2 id="modalTitle">
+                Add Transaction
+            </h2>
+
+            <span id="closeModal" class="close-btn">
+                &times;
+            </span>
+
+        </div>
+
+        <form id="transactionForm">
+
+            <input
+                    type="hidden"
+                    id="transactionId"
+            >
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                <input
+                        type="text"
+                        id="title"
+                        required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Category</label>
+
+                <input
+                        type="text"
+                        id="category"
+                        required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Amount</label>
+
+                <input
+                        type="number"
+                        id="amount"
+                        required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Type</label>
+
+                <select id="type">
+
+                    <option value="CREDIT">Credit</option>
+                    <option value="DEBIT">Debit</option>
+
+                </select>
+
+            </div>
+            <div class="form-group">
+
+                <label>Description</label>
+
+                <input
+                        type="text"
+                        id="description"
+                        required
+                >
+
+            </div>
+
+            <button type="submit" class="save-btn">
+                Save Transaction
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- DELETE MODAL -->
+
+<div class="modal" id="deleteModal">
+
+    <div class="delete-box">
+
+        <h2>Delete Transaction?</h2>
+
+        <p>This action cannot be undone.</p>
+
+        <div class="delete-actions">
+
+            <button id="cancelDelete"
+                    class="cancel-btn">
+                Cancel
+            </button>
+
+            <button id="confirmDelete"
+                    class="delete-btn">
+                Delete
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<nav class="mobile-nav">
+
+    <div id="mobile-dashboard">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Dashboard</span>
+    </div>
+
+    <div id="mobile-transactions">
+        <i class="fa-solid fa-money-bill-transfer"></i>
+        <span>Transactions</span>
+    </div>
+
+    <div id="mobile-reports">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Reports</span>
+    </div>
+
+    <div id="mobile-settings">
+        <i class="fa-solid fa-gear"></i>
+        <span>Settings</span>
+    </div>
+
+</nav>
+
+<script src="script.js"></script>
+
+</body>
+</html>
