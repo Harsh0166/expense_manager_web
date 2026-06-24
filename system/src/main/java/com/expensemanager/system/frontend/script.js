@@ -282,6 +282,7 @@ function updateSummary() {
 
     });
 
+
     const balance = income - expense;
 
     balanceAmount.textContent = `₹${balance}`;
