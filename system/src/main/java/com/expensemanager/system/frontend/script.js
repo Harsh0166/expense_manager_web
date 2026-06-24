@@ -391,6 +391,8 @@ function updateSummary() {
 
 
             transactionForm.style.display = "none";
+            transactionModal.style.display = "none";
+
             transactionForm.reset();
 
     });
