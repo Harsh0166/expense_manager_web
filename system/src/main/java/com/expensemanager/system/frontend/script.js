@@ -338,33 +338,58 @@ function updateSummary() {
 
         e.preventDefault();
 
+            const uploadData = {
 
-        const data = {
+                title: titleInput.value.trim(),
+                category: categoryInput.value.trim(),
+                amount: Number(amountInput.value),
+                type: typeInput.value,
+                description: descriptionInput.value
 
-        title: titleInput.value.trim(),
-        category: categoryInput.value.trim(),
-        amount: Number(amountInput.value),
-        type: typeInput.value,
-        description: descriptionInput.value
+            };
 
-        };
+            if(transactionId.value) {
+                fetch(
+                    `http://localhost:8080/transactions/${transactionId.value}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(uploadData)
+                    }
+                )
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log("Saved:", data);
+                        loadTransactions();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
+            else{
+                fetch(
+                    `http://localhost:8080/transactions`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(uploadData)
+                    }
+                )
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log("Saved:", data);
+                        loadTransactions();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            }
 
-            fetch("http://localhost:8080/transactions", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
 
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Saved:", data);
-                    loadTransactions();
-                })
-                .catch(error => {
-                    console.error(error);
-                });
             transactionForm.style.display = "none";
             transactionForm.reset();
 
@@ -376,21 +401,46 @@ function updateSummary() {
 
         function editTransaction(id) {
 
-        const transaction = transactions.find(
-        transaction => transaction.id === id
-        );
+            let editId = id;
+            fetch("http://localhost:8080/transactions")
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    getTransactions(data);
 
-        if (!transaction) return;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-        modalTitle.textContent = "Update Transaction";
+            modalTitle.textContent = "Update Transaction";
 
-        transactionId.value = transaction.id;
-        titleInput.value = transaction.title;
-        categoryInput.value = transaction.category;
-        amountInput.value = transaction.amount;
-        typeInput.value = transaction.type;
 
-        transactionModal.style.display = "flex";
+
+            function getTransactions(data){
+
+                if (!data) return;
+
+                for(let i = 0; i<data.length;i++){
+
+                    if(data[i].id===editId){
+
+                        const transaction = data[i];
+                        transactionId.value = transaction.id;
+                        titleInput.value = transaction.title;
+                        categoryInput.value = transaction.category;
+                        amountInput.value = transaction.amount;
+                        typeInput.value = transaction.type;
+                        descriptionInput.value = transaction.description;
+                    }
+                }
+
+                transactionModal.style.display = "flex";
+                transactionForm.style.display = "block";
+
+
+            }
+
 
     }
 
