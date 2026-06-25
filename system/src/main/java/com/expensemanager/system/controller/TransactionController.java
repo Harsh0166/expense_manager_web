@@ -1,5 +1,6 @@
 package com.expensemanager.system.controller;
 
+import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.model.Transaction;
 import com.expensemanager.system.service.TransactionService;
 import jakarta.validation.Valid;
@@ -47,7 +48,7 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions/balance")
-    public double balance(){
+    public SummaryDTO balance(){
         return service.calculateBalance();
     }
 }

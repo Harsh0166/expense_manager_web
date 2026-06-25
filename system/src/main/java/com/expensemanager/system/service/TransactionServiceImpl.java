@@ -1,5 +1,6 @@
 package com.expensemanager.system.service;
 
+import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.exception.TransactionNotFoundException;
 import com.expensemanager.system.model.Transaction;
 import com.expensemanager.system.repository.TransactionRepository;
@@ -114,11 +115,11 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public double calculateBalance() {
+    public SummaryDTO calculateBalance() {
         double totalCredit= 0;
         double totalDebit = 0;
         List<Transaction> list = repository.findAll();
-        for (int i = 0;i< list.size();i++){
+        for (int i = 0;i<list.size();i++){
             Transaction currentTransaction = list.get(i);
             if(currentTransaction.getType().equals("CREDIT")){
                 double income = currentTransaction.getAmount();
@@ -130,7 +131,8 @@ public class TransactionServiceImpl implements TransactionService{
             }
         }
         double balance = totalCredit - totalDebit;
-        return balance;
+        int totalTransactions = list.size();
+        return new SummaryDTO(balance,totalCredit,totalDebit,totalTransactions);
     }
 
 

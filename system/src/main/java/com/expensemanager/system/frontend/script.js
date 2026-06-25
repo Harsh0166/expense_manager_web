@@ -7,11 +7,24 @@ fetch("http://localhost:8080/transactions")
     .then(data => {
         console.log(data);
         renderTransactions(data);
-
+        searchData(data);
     })
     .catch(error => {
         console.error(error);
     });
+
+    fetch("http://localhost:8080/transactions/balance")
+        .then(response=>response.json())
+        .then(data=>{
+            updateSummary(data);
+        })
+function loadSummary(){
+    fetch("http://localhost:8080/transactions/balance")
+        .then(response=>response.json())
+        .then(data=>{
+            updateSummary(data);
+        })
+}
 
 function loadTransactions() {
     fetch("http://localhost:8080/transactions")
@@ -19,7 +32,6 @@ function loadTransactions() {
         .then(data => {
             console.log("reloaded")
             renderTransactions(data);
-
         })
 }
 // let transactions = [ { id: 1, title: "Salary", category: "Job", amount: 40000, type: "INCOME" }, { id: 2, title: "Pizza", category: "Food", amount: 500, type: "EXPENSE" }, { id: 3, title: "Movie", category: "Entertainment", amount: 300, type: "EXPENSE" } ];
@@ -267,42 +279,32 @@ function renderTransactions(data) {
 // UPDATE DASHBOARD
 // ============================
 
-function updateSummary() {
+function updateSummary(data) {
 
-    let income = 0;
-    let expense = 0;
+    const transactions = data;
+    console.log(transactions);
+    balanceAmount.textContent = `₹${transactions.balance}`;
+    incomeAmount.textContent = `₹${transactions.totalCredit}`;
+    expenseAmount.textContent = `₹${transactions.totalDebit}`;
+    transactionCount.textContent = transactions.totalTransactions;
 
-    transactions.forEach(transaction => {
+    // if (transactions.totalTransactions.length > 0) {
+    //
+    //     const latest = transactions[transactions.totalTransactions.length - 1];
+    //
+    //     recentActivity.innerHTML = `
+    //     <strong>${latest.title}</strong>
+    //     <br>
+    //         ₹${latest.amount}
+    //         <br>
+    //             ${latest.type}
+    //             `;
+    //
+    // }
+    // loadSummary();
 
-        if (transaction.type === "CREDIT") {
-            income += transaction.amount;
-        } else {
-            expense += transaction.amount;
-        }
 
-    });
-
-
-    const balance = income - expense;
-
-    balanceAmount.textContent = `₹${balance}`;
-    incomeAmount.textContent = `₹${income}`;
-    expenseAmount.textContent = `₹${expense}`;
-    transactionCount.textContent = transactions.length;
-
-    if (transactions.length > 0) {
-
-        const latest = transactions[transactions.length - 1];
-
-        recentActivity.innerHTML = `
-<strong>${latest.title}</strong>
-<br>
-    ₹${latest.amount}
-    <br>
-        ${latest.type}
-        `;
-        }
-        }
+}
 
         // ============================
         // OPEN ADD MODAL
@@ -407,7 +409,6 @@ function updateSummary() {
             fetch("http://localhost:8080/transactions")
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     getTransactions(data);
 
                 })
@@ -489,36 +490,39 @@ function updateSummary() {
         // ============================
         // SEARCH
         // ============================
-
+    function searchData(data){
         searchInput.addEventListener("keyup", () => {
 
-        const keyword = searchInput.value
-        .toLowerCase()
-        .trim();
 
-        const filtered = transactions.filter(transaction =>
+            const transactions = data;
+            const keyword = searchInput.value
+                .toLowerCase()
+                .trim();
 
-        transaction.title
-        .toLowerCase()
-        .includes(keyword)
+            const filtered = transactions.filter(transaction =>
 
-        ||
+                transaction.title
+                    .toLowerCase()
+                    .includes(keyword)
 
-        transaction.category
-        .toLowerCase()
-        .includes(keyword)
+                ||
 
-        ||
+                transaction.category
+                    .toLowerCase()
+                    .includes(keyword)
 
-        transaction.type
-        .toLowerCase()
-        .includes(keyword)
+                ||
 
-        );
+                transaction.type
+                    .toLowerCase()
+                    .includes(keyword)
 
-        renderTransactions(filtered);
+            );
+
+            renderTransactions(filtered);
 
     });
+        }
 
         // ============================
         // CLOSE MODAL ON OUTSIDE CLICK

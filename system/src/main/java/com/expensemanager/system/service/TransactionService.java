@@ -1,5 +1,6 @@
 package com.expensemanager.system.service;
 
+import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.model.Transaction;
 
 import java.util.List;
@@ -11,6 +12,6 @@ public interface TransactionService {
     Transaction getTransactionById(int id);
     Transaction updateTransaction(int id, Transaction transaction);
     String deleteTransaction(int id);
-    double calculateBalance();
+    SummaryDTO calculateBalance();
 
 }
