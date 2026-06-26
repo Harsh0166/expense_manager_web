@@ -86,6 +86,11 @@ const closeModal = document.getElementById("closeModal");
 
 const transactionForm = document.getElementById("transactionForm");
 
+const filterBtn = document.getElementById("filterBtn");
+const filterPanel =document.getElementById("filterPanel");
+const overlay =
+    document.getElementById("filterOverlay");
+
 const modalTitle = document.getElementById("modalTitle");
 
 const transactionId = document.getElementById("transactionId");
@@ -490,39 +495,19 @@ function updateSummary(data) {
         // ============================
         // SEARCH
         // ============================
-    function searchData(data){
         searchInput.addEventListener("keyup", () => {
-
-
-            const transactions = data;
             const keyword = searchInput.value
-                .toLowerCase()
-                .trim();
-
-            const filtered = transactions.filter(transaction =>
-
-                transaction.title
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                transaction.category
-                    .toLowerCase()
-                    .includes(keyword)
-
-                ||
-
-                transaction.type
-                    .toLowerCase()
-                    .includes(keyword)
-
-            );
-
-            renderTransactions(filtered);
+            fetch(`http://localhost:8080/transactions/search?keyword=${keyword}`)
+                .then(response => response.json())
+                .then(data => {
+                    renderTransactions(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
     });
-        }
+
 
         // ============================
         // CLOSE MODAL ON OUTSIDE CLICK
@@ -554,6 +539,55 @@ function updateSummary(data) {
     }
 
     });
+
+        //filter
+
+filterBtn.addEventListener("click",()=>{
+
+    if(filterPanel.style.display==="block"){
+
+        filterPanel.style.display="none";
+
+    }else{
+
+        filterPanel.style.display="block";
+
+    }
+
+});
+window.addEventListener("click",(e)=>{
+
+    if(
+
+        !filterPanel.contains(e.target)
+
+        &&
+
+        !filterBtn.contains(e.target)
+
+    ){
+
+        filterPanel.style.display="none";
+
+    }
+
+});
+
+filterPanel.style.display="block";
+
+overlay.classList.add("active");
+
+filterPanel.style.display="none";
+
+overlay.classList.remove("active");
+
+overlay.addEventListener("click",()=>{
+
+    filterPanel.style.display="none";
+
+    overlay.classList.remove("active");
+
+});
 
 document
     .getElementById("mobile-dashboard")

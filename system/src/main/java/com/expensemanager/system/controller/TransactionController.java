@@ -11,7 +11,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-public class TransactionController {
+public class    TransactionController {
 
     private TransactionService service;
 
@@ -40,6 +40,10 @@ public class TransactionController {
     @PutMapping("/transactions/{id}")
     public Transaction updateTran(@PathVariable int id, @Valid @RequestBody Transaction transaction){
         return service.updateTransaction(id,transaction);
+    }
+    @GetMapping("/transactions/search")
+    public List<Transaction> searchTran(@RequestParam("keyword") String keyword){
+        return service.searchTransactions(keyword);
     }
 
     @DeleteMapping("/transactions/{id}")

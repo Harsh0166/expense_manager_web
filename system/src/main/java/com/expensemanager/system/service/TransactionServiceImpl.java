@@ -135,5 +135,12 @@ public class TransactionServiceImpl implements TransactionService{
         return new SummaryDTO(balance,totalCredit,totalDebit,totalTransactions);
     }
 
+        @Override
+        public List<Transaction> searchTransactions(String keyword) {
+            keyword = keyword.trim().toLowerCase();
+            keyword = "%"+keyword+"%";
+            return repository.searchTransactions(keyword);
+        }
+
 
 }
