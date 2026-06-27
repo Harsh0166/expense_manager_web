@@ -2,16 +2,16 @@ package com.expensemanager.system.service;
 
 import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.model.Transaction;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
 public interface TransactionService {
-
     Transaction addTransaction(Transaction transaction);
     List<Transaction> getAllTransaction();
     Transaction getTransactionById(int id);
     Transaction updateTransaction(int id, Transaction transaction);
     String deleteTransaction(int id);
     SummaryDTO calculateBalance();
-    List<Transaction> searchTransactions(String keyword);
+    List<Transaction> getTransactions(String keyword, String type, String category);
 }

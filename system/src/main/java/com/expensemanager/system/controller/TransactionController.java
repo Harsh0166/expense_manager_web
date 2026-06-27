@@ -20,9 +20,11 @@ public class    TransactionController {
     }
 
     @GetMapping("/transactions")
-    public List<Transaction> allTran(){
-        List<Transaction> list = service.getAllTransaction();
-        return list;
+    public List<Transaction> getRequiredTransaction(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String category){
+        return service.getTransactions(keyword,type,category);
     }
 
     @GetMapping("/transactions/{id}")
@@ -40,10 +42,6 @@ public class    TransactionController {
     @PutMapping("/transactions/{id}")
     public Transaction updateTran(@PathVariable int id, @Valid @RequestBody Transaction transaction){
         return service.updateTransaction(id,transaction);
-    }
-    @GetMapping("/transactions/search")
-    public List<Transaction> searchTran(@RequestParam("keyword") String keyword){
-        return service.searchTransactions(keyword);
     }
 
     @DeleteMapping("/transactions/{id}")

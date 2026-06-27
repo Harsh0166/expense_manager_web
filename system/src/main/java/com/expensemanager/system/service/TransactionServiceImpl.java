@@ -4,6 +4,8 @@ import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.exception.TransactionNotFoundException;
 import com.expensemanager.system.model.Transaction;
 import com.expensemanager.system.repository.TransactionRepository;
+import com.expensemanager.system.specification.TransactionSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -135,12 +137,29 @@ public class TransactionServiceImpl implements TransactionService{
         return new SummaryDTO(balance,totalCredit,totalDebit,totalTransactions);
     }
 
-        @Override
-        public List<Transaction> searchTransactions(String keyword) {
-            keyword = keyword.trim().toLowerCase();
-            keyword = "%"+keyword+"%";
-            return repository.searchTransactions(keyword);
+    @Override
+    public List<Transaction> getTransactions(String keyword, String type, String category) {
+        Specification<Transaction> specification = Specification.unrestricted();
+
+        if(keyword!= null && !keyword.isBlank()){
+            keyword = "%" + keyword.trim().toLowerCase() + "%";
+
+            specification = specification.and(TransactionSpecification.hasKeyword(keyword));
         }
+
+        if(type!= null && !type.isBlank()){
+
+            specification = specification.and(TransactionSpecification.hasType(type));
+        }
+
+        if(category!= null && !category.isBlank()){
+
+            specification = specification.and(TransactionSpecification.hasCategory(category));
+        }
+
+
+        return repository.findAll(specification);
+    }
 
 
 }

@@ -2,22 +2,6 @@
 // DATA
 // ============================
 
-fetch("http://localhost:8080/transactions")
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        renderTransactions(data);
-        searchData(data);
-    })
-    .catch(error => {
-        console.error(error);
-    });
-
-    fetch("http://localhost:8080/transactions/balance")
-        .then(response=>response.json())
-        .then(data=>{
-            updateSummary(data);
-        })
 function loadSummary(){
     fetch("http://localhost:8080/transactions/balance")
         .then(response=>response.json())
@@ -26,13 +10,27 @@ function loadSummary(){
         })
 }
 
-function loadTransactions() {
-    fetch("http://localhost:8080/transactions")
+function loadTransactions(filter) {
+    const params =new URLSearchParams();
+    if(filter.keyword.trim()){
+        params.append("keyword",filter.keyword);
+    }
+    if(filter.type){
+        params.append("type",filter.type);
+    }
+    if(filter.category){
+        params.append("category",filter.category);
+    }
+
+    fetch(`http://localhost:8080/transactions?${params.toString()}`)
         .then(response => response.json())
         .then(data => {
-            console.log("reloaded")
+            console.log(data);
             renderTransactions(data);
         })
+        .catch(error => {
+            console.error(error);
+        });
 }
 // let transactions = [ { id: 1, title: "Salary", category: "Job", amount: 40000, type: "INCOME" }, { id: 2, title: "Pizza", category: "Food", amount: 500, type: "EXPENSE" }, { id: 3, title: "Movie", category: "Entertainment", amount: 300, type: "EXPENSE" } ];
 
@@ -88,6 +86,12 @@ const transactionForm = document.getElementById("transactionForm");
 const filterBtn = document.getElementById("filterBtn");
 const closeFilter = document.getElementById("closeFilter");
 const filterModal = document.getElementById("filterModal");
+const filterForm = document.getElementById("filterModal");
+
+const filterType = document.getElementById("filterType");
+const filterCategory = document.getElementById("filterCategory");
+// const filterType = document.getElementById("filterType");
+// const filterType = document.getElementById("filterType");
 
 
 const modalTitle = document.getElementById("modalTitle");
@@ -368,7 +372,8 @@ function updateSummary(data) {
                     .then(response => response.text())
                     .then(data => {
                         console.log("Saved:", data);
-                        loadTransactions();
+                        loadTransactions(readfilterValues());
+                        loadSummary();
                     })
                     .catch(error => {
                         console.error(error);
@@ -388,7 +393,8 @@ function updateSummary(data) {
                     .then(response => response.text())
                     .then(data => {
                         console.log("Saved:", data);
-                        loadTransactions();
+                        loadTransactions(readfilterValues());
+                        loadSummary();
                     })
                     .catch(error => {
                         console.error(error);
@@ -475,7 +481,8 @@ function updateSummary(data) {
                 .then(response => response.text())
                 .then(data => {
                     console.log("Saved:", data);
-                    loadTransactions();
+                    loadTransactions(readFilterValues());
+                    loadSummary();
                 })
                 .catch(error => {
                     console.error(error);
@@ -490,23 +497,6 @@ function updateSummary(data) {
         deleteModal.style.display = "none";
 
     });
-
-        // ============================
-        // SEARCH
-        // ============================
-        searchInput.addEventListener("keyup", () => {
-            const keyword = searchInput.value
-            fetch(`http://localhost:8080/transactions/search?keyword=${keyword}`)
-                .then(response => response.json())
-                .then(data => {
-                    renderTransactions(data);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-    });
-
 
         // ============================
         // CLOSE MODAL ON OUTSIDE CLICK
@@ -539,7 +529,35 @@ function updateSummary(data) {
 
     });
 
-        //filter
+// ============================
+// SEARCH
+// ============================
+//filter
+
+
+function readfilterValues(){
+    return {
+        keyword: searchInput.value.trim(),
+        type: filterType.value,
+        category: filterCategory.value
+    }
+}
+searchInput.addEventListener("keyup", () => {
+    const filters = readfilterValues();
+    loadTransactions(filters);
+});
+
+filterForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const filters = readfilterValues();
+    loadTransactions(filters);
+    filterForm.reset();
+    filterModal.style.display = "none";
+});
+
+
+
 
 filterBtn.addEventListener("click",()=>{
 
@@ -565,6 +583,9 @@ closeFilter.addEventListener("click", () => {
 });
 
 
+
+
+//tab change code
 document
     .getElementById("mobile-dashboard")
     .addEventListener("click", () => {
@@ -602,4 +623,6 @@ document
         // ============================
         // INITIAL LOAD
         // ============================
-        updateSummary();
+        loadSummary();
+loadTransactions(readfilterValues());
+
