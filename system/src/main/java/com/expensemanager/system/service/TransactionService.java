@@ -13,5 +13,5 @@ public interface TransactionService {
     Transaction updateTransaction(int id, Transaction transaction);
     String deleteTransaction(int id);
     SummaryDTO calculateBalance();
-    List<Transaction> getTransactions(String keyword, String type, String category);
+    List<Transaction> getTransactions(String keyword, String type, String category, Double minAmount, Double maxAmount);
 }

@@ -26,4 +26,13 @@ public class TransactionSpecification {
             return cb.or(titlePredicate, categoryPredicate, descriptionPredicate);
         };
     }
+
+    public static Specification<Transaction> hasMinAmount(Double minAmount){
+        return(root,query,cb)->
+                cb.greaterThanOrEqualTo(root.get("amount"),minAmount);
+    }
+    public static Specification<Transaction> hasMaxAmount(Double maxAmount){
+        return(root,query,cb)->
+                cb.lessThanOrEqualTo(root.get("amount"),maxAmount);
+    }
 }

@@ -23,8 +23,10 @@ public class    TransactionController {
     public List<Transaction> getRequiredTransaction(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String type,
-            @RequestParam(required = false) String category){
-        return service.getTransactions(keyword,type,category);
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minAmount,
+            @RequestParam(required = false) Double maxAmount){
+        return service.getTransactions(keyword,type,category,minAmount,maxAmount);
     }
 
     @GetMapping("/transactions/{id}")

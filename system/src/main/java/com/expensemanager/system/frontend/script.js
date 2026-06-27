@@ -21,6 +21,13 @@ function loadTransactions(filter) {
     if(filter.category){
         params.append("category",filter.category);
     }
+    if(filter.minAmount){
+        params.append("minAmount",filter.minAmount);
+    }
+
+    if(filter.maxAmount){
+        params.append("maxAmount",filter.maxAmount);
+    }
 
     fetch(`http://localhost:8080/transactions?${params.toString()}`)
         .then(response => response.json())
@@ -32,7 +39,6 @@ function loadTransactions(filter) {
             console.error(error);
         });
 }
-// let transactions = [ { id: 1, title: "Salary", category: "Job", amount: 40000, type: "INCOME" }, { id: 2, title: "Pizza", category: "Food", amount: 500, type: "EXPENSE" }, { id: 3, title: "Movie", category: "Entertainment", amount: 300, type: "EXPENSE" } ];
 
 let deleteId = null;
 
@@ -90,8 +96,8 @@ const filterForm = document.getElementById("filterModal");
 
 const filterType = document.getElementById("filterType");
 const filterCategory = document.getElementById("filterCategory");
-// const filterType = document.getElementById("filterType");
-// const filterType = document.getElementById("filterType");
+const minAmount = document.getElementById("minAmount");
+const maxAmount = document.getElementById("maxAmount");
 
 
 const modalTitle = document.getElementById("modalTitle");
@@ -539,7 +545,9 @@ function readfilterValues(){
     return {
         keyword: searchInput.value.trim(),
         type: filterType.value,
-        category: filterCategory.value
+        category: filterCategory.value,
+        minAmount: Number(minAmount.value),
+        maxAmount: Number(maxAmount.value)
     }
 }
 searchInput.addEventListener("keyup", () => {

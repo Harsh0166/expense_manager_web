@@ -138,7 +138,7 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public List<Transaction> getTransactions(String keyword, String type, String category) {
+    public List<Transaction> getTransactions(String keyword, String type, String category, Double minAmount, Double maxAmount) {
         Specification<Transaction> specification = Specification.unrestricted();
 
         if(keyword!= null && !keyword.isBlank()){
@@ -157,6 +157,21 @@ public class TransactionServiceImpl implements TransactionService{
             specification = specification.and(TransactionSpecification.hasCategory(category));
         }
 
+
+        if (minAmount != null) {
+
+            specification = specification.and(
+                    TransactionSpecification.hasMinAmount(minAmount)
+            );
+
+        }
+
+        if (maxAmount != null) {
+
+            specification = specification.and(
+                    TransactionSpecification.hasMaxAmount(maxAmount)
+            );
+        }
 
         return repository.findAll(specification);
     }
