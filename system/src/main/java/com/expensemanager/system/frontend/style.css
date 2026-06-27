@@ -191,10 +191,14 @@ body{
 }
 
 .add-btn{
+
+    height:60px;
+
+    /*font-size:17px;*/
     border:none;
     cursor:pointer;
     border-radius:15px;
-    padding:15px 25px;
+    padding:5px 15px;
     color:white;
     font-weight:600;
     background:linear-gradient(
@@ -512,7 +516,9 @@ tbody tr:hover{
 }
 
 .filter-btn{
+    height:60px;
 
+    font-size:16px;
     border:none;
     cursor:pointer;
 
@@ -561,36 +567,19 @@ tbody tr:hover{
     font-size:12px;
 
 }
-.filter-wrapper{
-    position:relative;
-}
+
 .filter-panel{
 
-    display:none;
+    width:min(450px,95vw);
 
-    position:absolute;
-
-    top:70px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:420px;
-
-    background:rgba(15,23,42,.97);
-
-    border:1px solid rgba(255,255,255,.08);
+    background:#111827;
 
     border-radius:20px;
 
+    border:1px solid rgba(255,255,255,.08);
+
     padding:25px;
 
-    backdrop-filter:blur(20px);
-
-    box-shadow:0 20px 50px rgba(0,0,0,.45);
-
-    z-index:1000;
 }
 
 @keyframes fade{
@@ -688,32 +677,57 @@ tbody tr:hover{
 
 }
 
-.filter-overlay{
+.filter-header{
 
-    position:fixed;
+    display:flex;
 
-    inset:0;
+    justify-content:space-between;
 
-    background:rgba(0,0,0,.35);
+    align-items:center;
 
-    backdrop-filter:blur(8px);
+    margin-bottom:25px;
 
-    opacity:0;
+    padding-bottom:15px;
 
-    visibility:hidden;
+    border-bottom:1px solid rgba(255,255,255,.08);
 
-    transition:.3s;
-
-    z-index:998;
 }
 
-.filter-overlay.active{
+.close-filter{
 
-    opacity:1;
+    width:40px;
 
-    visibility:visible;
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:18px;
+
 }
 
+.close-filter:hover{
+
+    background:#ef4444;
+
+    transform:rotate(90deg);
+
+}
 
 /* RESPONSIVE */
 
@@ -732,23 +746,29 @@ tbody tr:hover{
 
 @media(max-width:768px){
 
-    .filter-btn{
+    .header{
 
-        width:48%;
-
-    }
-
-    .add-btn{
-
-        width:48%;
+        margin-bottom:18px;
 
     }
 
     .toolbar{
-
         display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:12px;
+        align-items:center;
+    }
 
-        gap:15px;
+
+    .search-box{
+
+        grid-column:1/-1;
+
+    }
+
+    .filter-btn{
+
+        width:100%;
 
     }
 
@@ -760,16 +780,11 @@ tbody tr:hover{
 
     .filter-panel{
 
-        left:0;
+        width:95%;
 
-        right:0;
+        max-height:85vh;
 
-        width:100%;
-
-        transform:none;
-
-        top:65px;
-        padding-bottom:100px;
+        overflow-y:auto;
 
     }
 
@@ -778,10 +793,6 @@ tbody tr:hover{
         grid-template-columns:1fr;
 
     }
-    .toolbar{
-        flex-direction:column;
-    }
-
     .add-btn{
         width:100%;
     }

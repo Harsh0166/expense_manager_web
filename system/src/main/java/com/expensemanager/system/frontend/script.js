@@ -70,8 +70,6 @@ const transactionTable = document.getElementById("transactionTable");
 const searchInput = document.getElementById("searchInput");
 
 //card
-
-
 const container = document.getElementById("transactionCards");
 
 // ============================
@@ -86,10 +84,11 @@ const closeModal = document.getElementById("closeModal");
 
 const transactionForm = document.getElementById("transactionForm");
 
+//filter
 const filterBtn = document.getElementById("filterBtn");
-const filterPanel =document.getElementById("filterPanel");
-const overlay =
-    document.getElementById("filterOverlay");
+const closeFilter = document.getElementById("closeFilter");
+const filterModal = document.getElementById("filterModal");
+
 
 const modalTitle = document.getElementById("modalTitle");
 
@@ -544,50 +543,27 @@ function updateSummary(data) {
 
 filterBtn.addEventListener("click",()=>{
 
-    if(filterPanel.style.display==="block"){
-
-        filterPanel.style.display="none";
-
-    }else{
-
-        filterPanel.style.display="block";
-
-    }
+    filterModal.style.display = "flex";
 
 });
-window.addEventListener("click",(e)=>{
 
-    if(
+window.addEventListener("click", (e) => {
 
-        !filterPanel.contains(e.target)
-
-        &&
-
-        !filterBtn.contains(e.target)
-
-    ){
-
-        filterPanel.style.display="none";
-
+    if(e.target === transactionModal){
+        transactionModal.style.display = "none";
+    }
+    if(e.target === filterModal){
+        filterModal.style.display = "none";
     }
 
 });
 
-filterPanel.style.display="block";
-
-overlay.classList.add("active");
-
-filterPanel.style.display="none";
-
-overlay.classList.remove("active");
-
-overlay.addEventListener("click",()=>{
-
-    filterPanel.style.display="none";
-
-    overlay.classList.remove("active");
+console.log(closeFilter);
+closeFilter.addEventListener("click", () => {
+    filterModal.style.display = "none";
 
 });
+
 
 document
     .getElementById("mobile-dashboard")

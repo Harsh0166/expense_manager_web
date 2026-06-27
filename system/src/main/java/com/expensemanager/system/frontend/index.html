@@ -130,7 +130,6 @@
                             placeholder="Search transaction..."
                     >
                 </div>
-                <div class="filter-wrapper">
                     <button id="filterBtn" class="filter-btn">
                         <i class="fa-solid fa-filter"></i>
                         Filter
@@ -142,122 +141,135 @@
                         Add Transaction
                     </button>
 
-                </div>
 
-                <div id="filterPanel" class="filter-panel">
 
-                    <div class="filter-group">
+                <div id="filterModal" class="modal">
+                    <div id="filterPanel" class="filter-panel">
+                        <div class="filter-header">
 
-                        <label>Type</label>
+                            <h2>
+                                <i class="fa-solid fa-filter"></i>
+                                Filters
+                            </h2>
 
-                        <select id="filterType">
+                            <button id="closeFilter" class="close-filter">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
 
-                            <option value="">All</option>
-                            <option value="CREDIT">Credit</option>
-                            <option value="DEBIT">Debit</option>
+                        </div>
+                        <div class="filter-group">
 
-                        </select>
+                            <label>Type</label>
 
-                    </div>
+                            <select id="filterType">
 
-                    <div class="filter-group">
+                                <option value="">All</option>
+                                <option value="CREDIT">Credit</option>
+                                <option value="DEBIT">Debit</option>
 
-                        <label>Category</label>
+                            </select>
 
-                        <select id="filterCategory">
+                        </div>
 
-                            <option value="">All</option>
-                            <option>Food</option>
-                            <option>Travel</option>
-                            <option>Shopping</option>
-                            <option>Bills</option>
-                            <option>Salary</option>
-                            <option>Entertainment</option>
+                        <div class="filter-group">
 
-                        </select>
+                            <label>Category</label>
 
-                    </div>
+                            <select id="filterCategory">
 
-                    <div class="filter-group">
+                                <option value="">All</option>
+                                <option>Food</option>
+                                <option>Travel</option>
+                                <option>Shopping</option>
+                                <option>Bills</option>
+                                <option>Salary</option>
+                                <option>Entertainment</option>
 
-                        <label>Amount</label>
+                            </select>
 
-                        <div class="range">
+                        </div>
 
-                            <input
-                                    type="number"
-                                    placeholder="Min"
-                                    id="minAmount">
+                        <div class="filter-group">
 
-                            <input
-                                    type="number"
-                                    placeholder="Max"
-                                    id="maxAmount">
+                            <label>Amount</label>
+
+                            <div class="range">
+
+                                <input
+                                        type="number"
+                                        placeholder="Min"
+                                        id="minAmount">
+
+                                <input
+                                        type="number"
+                                        placeholder="Max"
+                                        id="maxAmount">
+
+                            </div>
+
+                        </div>
+
+                        <div class="filter-group">
+
+                            <label>Date</label>
+
+                            <div class="range">
+
+                                <input
+                                        type="date"
+                                        id="fromDate">
+
+                                <input
+                                        type="date"
+                                        id="toDate">
+
+                            </div>
+
+                        </div>
+
+                        <div class="filter-group">
+
+                            <label>Sort</label>
+
+                            <select id="sortBy">
+
+                                <option value="newest">Newest First</option>
+
+                                <option value="oldest">Oldest First</option>
+
+                                <option value="highest">Highest Amount</option>
+
+                                <option value="lowest">Lowest Amount</option>
+
+                                <option value="az">A → Z</option>
+
+                                <option value="za">Z → A</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="filter-buttons">
+
+                            <button
+                                    id="applyFilter"
+                                    class="apply-btn">
+
+                                Apply
+
+                            </button>
+
+                            <button
+                                    id="resetFilter"
+                                    class="reset-btn">
+
+                                Reset
+
+                            </button>
 
                         </div>
 
                     </div>
-
-                    <div class="filter-group">
-
-                        <label>Date</label>
-
-                        <div class="range">
-
-                            <input
-                                    type="date"
-                                    id="fromDate">
-
-                            <input
-                                    type="date"
-                                    id="toDate">
-
-                        </div>
-
-                    </div>
-
-                    <div class="filter-group">
-
-                        <label>Sort</label>
-
-                        <select id="sortBy">
-
-                            <option value="newest">Newest First</option>
-
-                            <option value="oldest">Oldest First</option>
-
-                            <option value="highest">Highest Amount</option>
-
-                            <option value="lowest">Lowest Amount</option>
-
-                            <option value="az">A → Z</option>
-
-                            <option value="za">Z → A</option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="filter-buttons">
-
-                        <button
-                                id="applyFilter"
-                                class="apply-btn">
-
-                            Apply
-
-                        </button>
-
-                        <button
-                                id="resetFilter"
-                                class="reset-btn">
-
-                            Reset
-
-                        </button>
-
-                    </div>
-
                 </div>
             </div>
 
@@ -541,7 +553,6 @@
     </div>
 
 </nav>
-<div id="filterOverlay" class="filter-overlay"></div>
 <script src="script.js"></script>
 
 </body>
