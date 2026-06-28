@@ -192,25 +192,26 @@ public class TransactionServiceImpl implements TransactionService{
         }
 
         Sort sorting = Sort.unsorted();
-
-        switch(sort){
-            case "newest" :
-                sorting = Sort.by("dateTime").descending();
-                break;
-            case "oldest" :
-                sorting = Sort.by("dateTime").ascending();
-                break;
-            case "amountAsc":
-                sorting = Sort.by("amount").ascending();
-                break;
-            case "amountDesc":
-                sorting = Sort.by("amount").descending();
-                break;
-            case "titleAsc":
-                sorting = Sort.by("title").ascending();
-                break;
-            case "titleDesc":
-                sorting = Sort.by("title").descending();
+        if(sort !=null) {
+            switch (sort) {
+                case "newest":
+                    sorting = Sort.by("dateTime").descending();
+                    break;
+                case "oldest":
+                    sorting = Sort.by("dateTime").ascending();
+                    break;
+                case "amountAsc":
+                    sorting = Sort.by("amount").ascending();
+                    break;
+                case "amountDesc":
+                    sorting = Sort.by("amount").descending();
+                    break;
+                case "titleAsc":
+                    sorting = Sort.by("title").ascending();
+                    break;
+                case "titleDesc":
+                    sorting = Sort.by("title").descending();
+            }
         }
 
         Pageable pageable = PageRequest.of(page,size,sorting);

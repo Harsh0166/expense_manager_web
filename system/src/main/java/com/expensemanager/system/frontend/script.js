@@ -2,6 +2,11 @@
 // DATA
 // ============================
 
+let currentPage = 0;
+let pageSize = 10;
+let totalPages = 0;
+
+
 function loadSummary(){
     fetch("http://localhost:8080/transactions/balance")
         .then(response=>response.json())
@@ -38,12 +43,20 @@ function loadTransactions(filter) {
         params.append("sort",filter.sorting);
     }
 
+    params.append("page",currentPage);
+    params.append("size",pageSize);
+
 
     fetch(`http://localhost:8080/transactions?${params.toString()}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            renderTransactions(data);
+            console.log(data.content);
+            currentPage = data.number;
+            totalPages = data.totalPages;
+            renderTransactions(data.content);
+            pageInfo.textContent = `Showing ${data.number+1} - ${pageSize} of ${data.totalElements} transactions`;
+            previousPage.disabled = data.first;
+            nextPage.disabled = data.last;
         })
         .catch(error => {
             console.error(error);
@@ -111,6 +124,14 @@ const maxAmount = document.getElementById("maxAmount");
 const fromDate = document.getElementById("fromDate");
 const toDate = document.getElementById("toDate");
 const sortBy = document.getElementById("sortBy");
+
+
+//pagination
+const pageNumbers = document.getElementById("pageNumbers");
+const pageInfo = document.getElementById("pageInfo");
+const nextPage = document.getElementById("nextPage");
+const previousPage = document.getElementById('prevPage');
+
 
 const modalTitle = document.getElementById("modalTitle");
 
@@ -295,8 +316,6 @@ function renderTransactions(data) {
 `;
 
         container.appendChild(card);
-        console.log(transaction);
-
     }
 
 }
@@ -308,7 +327,6 @@ function renderTransactions(data) {
 function updateSummary(data) {
 
     const transactions = data;
-    console.log(transactions);
     balanceAmount.textContent = `₹${transactions.balance}`;
     incomeAmount.textContent = `₹${transactions.totalCredit}`;
     expenseAmount.textContent = `₹${transactions.totalDebit}`;
@@ -389,7 +407,6 @@ function updateSummary(data) {
                 )
                     .then(response => response.text())
                     .then(data => {
-                        console.log("Saved:", data);
                         loadTransactions(readfilterValues());
                         loadSummary();
                     })
@@ -410,7 +427,6 @@ function updateSummary(data) {
                 )
                     .then(response => response.text())
                     .then(data => {
-                        console.log("Saved:", data);
                         loadTransactions(readfilterValues());
                         loadSummary();
                     })
@@ -498,7 +514,6 @@ function updateSummary(data) {
             )
                 .then(response => response.text())
                 .then(data => {
-                    console.log("Saved:", data);
                     loadTransactions(readFilterValues());
                     loadSummary();
                 })
@@ -562,11 +577,12 @@ function readfilterValues(){
         maxAmount: Number(maxAmount.value),
         fromDate: fromDate.value,
         toDate: toDate.value,
-        sorting: sortBy.value
+        sorting: sortBy.value,
     }
 }
 searchInput.addEventListener("keyup", () => {
     const filters = readfilterValues();
+    currentPage = 0;
     loadTransactions(filters);
 });
 
@@ -574,6 +590,7 @@ filterForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const filters = readfilterValues();
+    currentPage = 0;
     loadTransactions(filters);
     filterForm.reset();
     filterModal.style.display = "none";
@@ -599,14 +616,27 @@ window.addEventListener("click", (e) => {
 
 });
 
-console.log(closeFilter);
 closeFilter.addEventListener("click", () => {
     filterModal.style.display = "none";
 
 });
 
 
+// page change code
 
+
+previousPage.addEventListener("click" ,()=>{
+    if(currentPage>0){
+        currentPage--;
+        loadTransactions(readfilterValues());
+    }
+})
+nextPage.addEventListener("click",()=>{
+    if (currentPage < totalPages - 1) {
+        currentPage++;
+        loadTransactions(readfilterValues());
+    }
+})
 
 //tab change code
 document

@@ -747,9 +747,9 @@ tbody tr:hover{
 
 .pagination-info{
 
-    color:var(--text-light);
+    color:var(--text);
 
-    font-size:14px;
+    font-size:16px;
 
 }
 
@@ -779,7 +779,7 @@ tbody tr:hover{
     cursor:pointer;
 
     background:rgba(255,255,255,.08);
-
+    font-size: 20px;
     color:white;
 
     padding:10px 16px;
