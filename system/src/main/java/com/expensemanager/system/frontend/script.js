@@ -28,6 +28,16 @@ function loadTransactions(filter) {
     if(filter.maxAmount){
         params.append("maxAmount",filter.maxAmount);
     }
+    if(filter.fromDate){
+        params.append("fromDate",filter.fromDate);
+    }
+    if(filter.toDate){
+        params.append("toDate",filter.toDate);
+    }
+    if(filter.sorting){
+        params.append("sort",filter.sorting);
+    }
+
 
     fetch(`http://localhost:8080/transactions?${params.toString()}`)
         .then(response => response.json())
@@ -98,7 +108,9 @@ const filterType = document.getElementById("filterType");
 const filterCategory = document.getElementById("filterCategory");
 const minAmount = document.getElementById("minAmount");
 const maxAmount = document.getElementById("maxAmount");
-
+const fromDate = document.getElementById("fromDate");
+const toDate = document.getElementById("toDate");
+const sortBy = document.getElementById("sortBy");
 
 const modalTitle = document.getElementById("modalTitle");
 
@@ -547,7 +559,10 @@ function readfilterValues(){
         type: filterType.value,
         category: filterCategory.value,
         minAmount: Number(minAmount.value),
-        maxAmount: Number(maxAmount.value)
+        maxAmount: Number(maxAmount.value),
+        fromDate: fromDate.value,
+        toDate: toDate.value,
+        sorting: sortBy.value
     }
 }
 searchInput.addEventListener("keyup", () => {

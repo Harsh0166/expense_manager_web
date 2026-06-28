@@ -233,17 +233,18 @@
 
                             <select id="sortBy">
 
+                                <option value="null">Select</optionvalue>
                                 <option value="newest">Newest First</option>
 
                                 <option value="oldest">Oldest First</option>
 
-                                <option value="highest">Highest Amount</option>
+                                <option value="amountDesc">Highest Amount</option>
 
-                                <option value="lowest">Lowest Amount</option>
+                                <option value="amountAsc">Lowest Amount</option>
 
-                                <option value="az">A → Z</option>
+                                <option value="titleAsc">A → Z</option>
 
-                                <option value="za">Z → A</option>
+                                <option value="titleDesc">Z → A</option>
 
                             </select>
 
@@ -406,6 +407,7 @@
 
     </main>
 
+
 </div>
 
 <!-- ADD / UPDATE MODAL -->
@@ -553,6 +555,38 @@
     </div>
 
 </nav>
+<div class="pagination">
+
+    <div class="pagination-info">
+
+        Showing
+        <span id="startRecord">1</span>
+        -
+        <span id="endRecord">10</span>
+        of
+        <span id="totalRecords">0</span>
+
+    </div>
+
+    <div class="pagination-controls">
+
+        <button id="prevPage" class="page-btn">
+            <i class="fa-solid fa-angle-left"></i>
+            Previous
+        </button>
+
+        <div id="pageNumbers" class="page-numbers">
+
+        </div>
+
+        <button id="nextPage" class="page-btn">
+            Next
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+
+    </div>
+
+</div>
 <script src="script.js"></script>
 
 </body>

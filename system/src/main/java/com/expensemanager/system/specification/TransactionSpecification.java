@@ -4,6 +4,8 @@ import com.expensemanager.system.model.Transaction;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
+
 public class TransactionSpecification {
     public static Specification<Transaction> hasType(String type){
         return (root,query,cb)->
@@ -34,5 +36,15 @@ public class TransactionSpecification {
     public static Specification<Transaction> hasMaxAmount(Double maxAmount){
         return(root,query,cb)->
                 cb.lessThanOrEqualTo(root.get("amount"),maxAmount);
+    }
+
+    public static Specification<Transaction> hasFromDate(LocalDateTime fromDate){
+        return(root,query,cb)->
+                cb.greaterThanOrEqualTo(root.get("dateTime"),fromDate);
+    }
+
+    public static Specification<Transaction> hasToDate(LocalDateTime toDate){
+        return(root,query,cb)->
+                cb.lessThanOrEqualTo(root.get("dateTime"),toDate);
     }
 }

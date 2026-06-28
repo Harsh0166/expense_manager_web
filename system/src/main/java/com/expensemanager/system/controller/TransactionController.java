@@ -4,9 +4,11 @@ import com.expensemanager.system.dto.SummaryDTO;
 import com.expensemanager.system.model.Transaction;
 import com.expensemanager.system.service.TransactionService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
@@ -20,13 +22,19 @@ public class    TransactionController {
     }
 
     @GetMapping("/transactions")
-    public List<Transaction> getRequiredTransaction(
+    public Page<Transaction> getRequiredTransaction(
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String type,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) Double minAmount,
-            @RequestParam(required = false) Double maxAmount){
-        return service.getTransactions(keyword,type,category,minAmount,maxAmount);
+            @RequestParam(required = false) Double maxAmount,
+            @RequestParam(required = false) LocalDate fromDate,
+            @RequestParam(required = false) LocalDate toDate,
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return service.getTransactions(keyword,type,category,minAmount,maxAmount,fromDate,toDate,sort,page,size);
     }
 
     @GetMapping("/transactions/{id}")

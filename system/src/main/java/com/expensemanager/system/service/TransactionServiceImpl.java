@@ -5,10 +5,16 @@ import com.expensemanager.system.exception.TransactionNotFoundException;
 import com.expensemanager.system.model.Transaction;
 import com.expensemanager.system.repository.TransactionRepository;
 import com.expensemanager.system.specification.TransactionSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -138,7 +144,7 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public List<Transaction> getTransactions(String keyword, String type, String category, Double minAmount, Double maxAmount) {
+    public Page<Transaction> getTransactions(String keyword, String type, String category, Double minAmount, Double maxAmount, LocalDate fromDate, LocalDate toDate, String sort, int page, int size) {
         Specification<Transaction> specification = Specification.unrestricted();
 
         if(keyword!= null && !keyword.isBlank()){
@@ -172,8 +178,46 @@ public class TransactionServiceImpl implements TransactionService{
                     TransactionSpecification.hasMaxAmount(maxAmount)
             );
         }
+        if(fromDate !=null){
+            LocalDateTime fromDateTime = fromDate.atStartOfDay();
+            specification = specification.and(
+                    TransactionSpecification.hasFromDate(fromDateTime)
+            );
+        }
+        if(toDate !=null){
+            LocalDateTime toDateTime = toDate.atTime(LocalTime.MAX);
+            specification = specification.and(
+                    TransactionSpecification.hasToDate(toDateTime)
+            );
+        }
 
-        return repository.findAll(specification);
+        Sort sorting = Sort.unsorted();
+
+        switch(sort){
+            case "newest" :
+                sorting = Sort.by("dateTime").descending();
+                break;
+            case "oldest" :
+                sorting = Sort.by("dateTime").ascending();
+                break;
+            case "amountAsc":
+                sorting = Sort.by("amount").ascending();
+                break;
+            case "amountDesc":
+                sorting = Sort.by("amount").descending();
+                break;
+            case "titleAsc":
+                sorting = Sort.by("title").ascending();
+                break;
+            case "titleDesc":
+                sorting = Sort.by("title").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page,size,sorting);
+
+
+
+        return repository.findAll(specification,pageable);
     }
 
 
