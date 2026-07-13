@@ -19,9 +19,13 @@ public class User {
     private Role role;
 
 
-//    public String getEmail() {
-//        return email;
-//    }
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     public void setPassword(String password) {
         this.password = password;
