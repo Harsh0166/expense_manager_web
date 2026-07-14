@@ -19,6 +19,10 @@ public class User {
     private Role role;
 
 
+    public String getName() {
+        return name;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -34,4 +38,5 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
 }
