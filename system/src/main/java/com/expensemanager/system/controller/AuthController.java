@@ -22,4 +22,10 @@ public class AuthController {
         User savedUser = service.register(user);
         return ResponseEntity.status(201).body(savedUser);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> loginData(@RequestBody User user){
+        User loadUser = service.login(user);
+        return ResponseEntity.status(201).body(loadUser);
+    }
 }

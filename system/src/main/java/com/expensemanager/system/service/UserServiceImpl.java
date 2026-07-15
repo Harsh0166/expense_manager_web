@@ -36,6 +36,16 @@ public class UserServiceImpl implements UserService{
         if(existingUser.isEmpty()){
             throw new RuntimeException("User Not Found");
         }
-        return ;
+        String rawPassword = user.getPassword();
+        String encodedPassword = existingUser.get().getPassword();
+
+        boolean isMatch = passwordEncoder.matches(rawPassword,encodedPassword);
+
+        if(isMatch){
+            return existingUser.get();
+        }
+        else{
+            throw new RuntimeException("Invalid Password");
+        }
     }
 }
