@@ -24,8 +24,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> loginData(@RequestBody User user){
-        User loadUser = service.login(user);
-        return ResponseEntity.status(201).body(loadUser);
+    public ResponseEntity<?> loginData(@RequestBody User user){
+        try {
+            User loadUser = service.login(user);
+            return ResponseEntity.ok(loadUser);
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

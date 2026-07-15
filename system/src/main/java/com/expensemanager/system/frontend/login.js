@@ -161,44 +161,28 @@ registerForm.addEventListener("submit", async (e)=>{
 
     };
 
-    try{
-
-        const response = await fetch("http://localhost:8080/register",{
-
-            method:"POST",
-
+    fetch(`http://localhost:8080/auth/register`,
+        {method:"POST",
             headers:{
                 "Content-Type":"application/json"
             },
-
             body:JSON.stringify(user)
+        })
+        .then(response=> {
+            if (response.ok) {
+                window.alert("Successfully created account");
+            } else {
+                window.alert("Email already exist");
+            }
+        })
+        .then(data=>{
 
+        })
+        .catch(error=>{
+            console.error(error);
         });
-
-        if(response.ok){
-
-            alert("Registration Successful!");
-
-            registerForm.reset();
-
-            loginTab.click();
-
-        }else{
-
-            const msg=await response.text();
-
-            alert(msg);
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Server Error");
-
-    }
-
+    registerForm.reset();
+    loginTab.click();
 });
 
 
@@ -218,44 +202,24 @@ loginForm.addEventListener("submit", async (e)=>{
 
     };
 
-    try{
-
-        const response = await fetch("http://localhost:8080/login",{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify(loginData)
-
-        });
-
-        if(response.ok){
-
-            const data = await response.json();
-
-            localStorage.setItem("token",data.token);
-
-            window.location.href="index.html";
-
-        }
-
-        else{
-
+    fetch(
+        `http://localhost:8080/auth/login`,
+        {method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(loginData)
+        })
+        .then(async response=>{
             const msg = await response.text();
-
-            alert(msg);
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Unable to connect server.");
-
-    }
-
+            if (response.ok){
+                alert("login successful");
+                window.location.href="index.html";
+            }
+            else{
+                alert(msg);
+            }
+        })
+        .catch(error=>{
+            console.error(error);
+        })
+    loginForm.reset();
 });
